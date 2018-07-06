@@ -47,7 +47,7 @@ def help_page():
     webbrowser.open(url, new=2)    
 
 def about_page():
-    url='about.html'
+    url='https://tryguys.github.io'
     webbrowser.open(url, new=2)    
     
 win=tk.Tk()
