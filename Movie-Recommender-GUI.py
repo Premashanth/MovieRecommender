@@ -9,12 +9,15 @@ from tkinter import Menu
 from tkinter import ttk
 import webbrowser
 import sqlite3
+import importlib
+from ScraperGUI import *
+
 
 def signup(a,b):
     conn = sqlite3.connect('Auth.db')
-    #conn.execute('''CREATE TABLE USER_DATA
-    #        (ID VARCHAR PRIMARY KEY     NOT NULL,
-    #       PASS           VARCHAR    NOT NULL);''')
+    #conn.execute('''CREATE TABLE USER_DATA                     
+    #            (ID VARCHAR PRIMARY KEY     NOT NULL,
+    #            PASS           VARCHAR    NOT NULL);''')
     conn.execute("INSERT INTO USER_DATA VALUES (?,?)",(a,b))
     conn.commit()
     cursor = conn.execute("SELECT ID, PASS from USER_DATA")
@@ -30,10 +33,12 @@ def login(a,b):
     for row in cursor:
         if row[1]==b:   
             label = ttk.Label(frame1,text= "    Success            ",foreground="green").grid(column=1,row=4,sticky="W")
-        elif row[1]!=b:
-            print("debug")   
+            win.quit()
+            win.destroy()
+            func1()
+            #importlib.import_module("ScraperGUI") #importing scraper file
+        elif row[1]!=b:   
             label = ttk.Label(frame1,text= "Wrong Password",foreground="red").grid(column=1,row=4,sticky="W")
-            label.grid_forget()            
     conn.close()
      
 
@@ -98,8 +103,10 @@ x0=ttk.Entry(frame0)
 y0=ttk.Entry(frame0)
 x0.grid(column=1,row=0)
 y0.grid(column=1,row=1)
+
 def get_val():
     signup(x0.get(),y0.get())
+
 btn1=ttk.Button(frame0,text="Submit",command=get_val).grid(column=3,row=3)
 
 #Tab 2,Frame 1 LOGIN
@@ -111,8 +118,10 @@ x=ttk.Entry(frame1)
 y=ttk.Entry(frame1)
 x.grid(column=1,row=0)
 y.grid(column=1,row=1)
+
 def get_val1():
     login(x.get(),y.get())
+
 btn1=ttk.Button(frame1,text="Submit",command=get_val1).grid(column=3,row=2)
 
 #Tab 3,Frame 1 CHOOSING GENRE
